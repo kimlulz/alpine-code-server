@@ -16,7 +16,9 @@ ENV \
    # code-server version \
    VERSION=3.12.0
 
-COPY code-server /usr/bin/
+RUN echo '#!/usr/bin/env sh \
+\
+exec /usr/lib/code-server/bin/code-server "$@"' > /usr/bin/code-server
 RUN chmod +x /usr/bin/code-server
 
 # Install dependencies
