@@ -12,7 +12,7 @@ ENV \
    # should user shell set to nologin? (yes/no) \
    ENOLOGIN=no \
    # container user home dir \
-   EHOME=/home/vscode \
+   EHOME=/home/vscode
 
 COPY code-server /usr/bin/
 RUN chmod +x /usr/bin/code-server
