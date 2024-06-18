@@ -13,8 +13,6 @@ ENV \
    ENOLOGIN=no \
    # container user home dir \
    EHOME=/home/vscode \
-   # code-server version \
-   VERSION=3.12.0
 
 COPY code-server /usr/bin/
 RUN chmod +x /usr/bin/code-server
@@ -30,13 +28,17 @@ RUN \
    openssh-client
 
 RUN \
-   wget https://github.com/cdr/code-server/releases/download/v$VERSION/code-server-$VERSION-linux-arm64.tar.gz && \
-   tar x -zf code-server-$VERSION-linux-arm64.tar.gz && \
-   rm code-server-$VERSION-linux-arm64.tar.gz && \
-   rm code-server-$VERSION-linux-arm64/node && \
-   rm code-server-$VERSION-linux-arm64/code-server && \
-   rm code-server-$VERSION-linux-arm64/lib/node && \
-   mv code-server-$VERSION-linux-arm64 /usr/lib/code-server && \
+   if [ -z ${VERSION+x} ]; then \
+      VERSION=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest \
+      | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||'); \
+   fi && \
+   wget https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-arm64.tar.gz && \
+   tar x -zf code-server-${VERSION}-linux-arm64.tar.gz && \
+   rm code-server-${VERSION}-linux-arm64.tar.gz && \
+   rm code-server-${VERSION}-linux-arm64/node && \
+   rm code-server-${VERSION}-linux-arm64/code-server && \
+   rm code-server-${VERSION}-linux-arm64/lib/node && \
+   mv code-server-${VERSION}-linux-arm64 /usr/lib/code-server && \
    sed -i 's/"$ROOT\/lib\/node"/node/g'  /usr/lib/code-server/bin/code-server
 
 ENTRYPOINT ["entrypoint-su-exec", "code-server"]
