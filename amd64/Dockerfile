@@ -14,7 +14,7 @@ ENV \
    # container user home dir \
    EHOME=/home/vscode \
 
-COPY code-server /usr/bin/
+COPY code-server /usr/bin/code-server
 RUN chmod +x /usr/bin/code-server
 
 # Install dependencies
