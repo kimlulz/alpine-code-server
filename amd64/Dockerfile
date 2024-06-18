@@ -32,7 +32,7 @@ RUN \
       VERSION=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest \
       | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||'); \
    fi && \
-   wget https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz && \
+   curl -fsSL -o code-server-${VERSION}-linux-amd64.tar.gz https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz && \
    tar x -zf code-server-${VERSION}-linux-amd64.tar.gz && \
    rm code-server-${VERSION}-linux-amd64.tar.gz && \
    rm code-server-${VERSION}-linux-amd64/node && \
