@@ -39,7 +39,7 @@ jobs:
           push: true
           tags: |
             martinussuherman/alpine-code-server:${{ steps.get_version.outputs.version }}-amd64
-            martinussuherman/alpine-code-server:${{ steps.get_version.outputs.version }}-latest
+            martinussuherman/alpine-code-server:latest
 
       - name: Build and push arm64v8 image
         uses: docker/build-push-action@v2
