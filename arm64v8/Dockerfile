@@ -33,11 +33,8 @@ RUN \
    echo "Version : $VERSION" && \
    echo "******************" && \
    curl -fsSL -o code-server-${VERSION}-linux-arm64.tar.gz https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-arm64.tar.gz && \
-   tar x -zf code-server-${VERSION}-linux-arm64.tar.gz && \
-   rm code-server-${VERSION}-linux-arm64.tar.gz && \
-   rm code-server-${VERSION}-linux-arm64/lib/node && \
-   mv code-server-${VERSION}-linux-arm64 /usr/lib/code-server && \
-   sed -i 's/"$ROOT\/lib\/node"/node/g'  /usr/lib/code-server/bin/code-server
+   tar -zxf code-server-${VERSION}-linux-arm64.tar.gz && \
+   mv code-server-${VERSION}-linux-arm64 /usr/lib/code-server
 
 ENTRYPOINT ["entrypoint-su-exec", "code-server"]
 CMD ["--bind-addr 0.0.0.0:8080"]
